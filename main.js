@@ -8,7 +8,14 @@ class Node {
 
 class Tree {
     constructor(array) {
-        this.root = this.buildTree(array, 0, array.length-1);
+        const newArray = this.stripArray(array);
+        this.root = this.buildTree(newArray, 0, newArray.length-1);
+    }
+
+    stripArray(array) {
+        const set = new Set(array);
+        const noDupsSorted = Array.from(set);
+        return noDupsSorted.toSorted((a,b) => a - b);
     }
 
     buildTree(array, start, end) {
@@ -37,7 +44,7 @@ class Tree {
     };
 }
 
-const array = [1, 2, 3, 4, 5, 6, 7, 8];
+const array = [4, 7, 2, 1, 5, 7, 6, 1];
 const bst = new Tree(array);
 
 bst.prettyPrint(bst.root);
