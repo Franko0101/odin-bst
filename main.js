@@ -71,6 +71,40 @@ class Tree {
         console.log("Valore aggiunto con successo");
     }
 
+    delete(value) {
+        if (!this.find(value)) {
+            console.log("Impossibile rimuoverlo");
+            return null;
+        } else
+            console.log("Lo cancello");
+
+        let current = this.root;
+        while (current) {
+            if (value > current.data && current.right) {
+                if (value == current.right.data)
+                    break;
+                else
+                    current = current.right;
+            }
+            else if (value < current.data && current.left) {
+                if (value == current.left.data)
+                    break;
+                else
+                    current = current.left;
+            }
+            else break;
+        }
+
+        if (value == current.right.data) {
+            if (!current.right.right && !current.right.left)
+                current.right = null;
+        } else {
+            if (!current.left.right && !current.left.left)
+                current.left = null;
+        }
+        
+    }
+
     find(value) {
         console.log(`Cerco il valore ${value}`);
         let current = this.root;
@@ -100,4 +134,7 @@ bst.prettyPrint(bst.root);
 bst.find(7);
 
 bst.insert(7);
+bst.prettyPrint(bst.root);
+
+bst.delete(7);
 bst.prettyPrint(bst.root);
