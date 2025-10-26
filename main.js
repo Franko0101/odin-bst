@@ -42,9 +42,49 @@ class Tree {
             this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
     };
+
+    insert(value) {
+        let current = this.root;
+        if (this.find(value)) {
+            console.log("Valore gia presente");
+            return null;
+        }
+
+        while (current) {
+
+        }
+        if (value > current.data) {
+            if (current.right)
+                current = current.right;
+            else
+                current.right = new Node(value);
+        }
+            
+        else if (current < current.data)
+            current = current.left
+
+    }
+
+    find(value) {
+        let current = this.root;
+        while(current) {
+            if (value == current.data)
+                return current;
+
+            if (value > current.data)
+                current = current.right
+            else
+                current = current.left;
+        }
+
+        console.log("Valore non trovato");
+        return null;
+    }
 }
 
-const array = [4, 7, 2, 1, 5, 7, 6, 1];
+const array = [6, 2, 8, 5, 10, 4];
 const bst = new Tree(array);
 
 bst.prettyPrint(bst.root);
+console.log(bst.find(8));
+bst.insert(5);
