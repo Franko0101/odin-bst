@@ -44,32 +44,41 @@ class Tree {
     };
 
     insert(value) {
-        let current = this.root;
+        console.log(`Provo ad aggiungere ${value}`);
+
         if (this.find(value)) {
-            console.log("Valore gia presente");
+            console.log("Non aggiungo nulla");
             return null;
-        }
+        } else
+            console.log("Lo aggiungo");
+
+        let current = this.root;
+        const newNode = new Node(value);
 
         while (current) {
-
-        }
-        if (value > current.data) {
-            if (current.right)
+            if (value > current.data && current.right)
                 current = current.right;
-            else
-                current.right = new Node(value);
+            else if (value < current.data && current.left)
+                current = current.left;
+            else break;
         }
-            
-        else if (current < current.data)
-            current = current.left
 
+        if (value > current.data)
+            current.right = newNode;
+        else
+            current.left = newNode;
+
+        console.log("Valore aggiunto con successo");
     }
 
     find(value) {
+        console.log(`Cerco il valore ${value}`);
         let current = this.root;
         while(current) {
-            if (value == current.data)
+            if (value == current.data) {
+                console.log("Valore trovato");
                 return current;
+            }
 
             if (value > current.data)
                 current = current.right
@@ -80,11 +89,15 @@ class Tree {
         console.log("Valore non trovato");
         return null;
     }
+
+
 }
 
 const array = [6, 2, 8, 5, 10, 4];
 const bst = new Tree(array);
 
 bst.prettyPrint(bst.root);
-console.log(bst.find(8));
-bst.insert(5);
+bst.find(7);
+
+bst.insert(7);
+bst.prettyPrint(bst.root);
