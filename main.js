@@ -87,47 +87,14 @@ class Tree {
         return root;
     }
 
-    delete(value) {
-        if (!this.find(value)) {
-            console.log("Impossibile rimuoverlo");
-            return null;
-        } else
-            console.log("Lo cancello");
-
-        let current = this.root;
-        while (current) {
-            if (value > current.data && current.right) {
-                if (value == current.right.data)
-                    break;
-                else
-                    current = current.right;
-            }
-            else if (value < current.data && current.left) {
-                if (value == current.left.data)
-                    break;
-                else
-                    current = current.left;
-            }
-            else break;
-        }
-
-        if (value == current.right.data) {
-            if (!current.right.right && !current.right.left)
-                current.right = null;
-        } else {
-            if (!current.left.right && !current.left.left)
-                current.left = null;
-        }
-    }
-
-    deleteRec(root, value) {
+    delete(root, value) {
         if (!root)
             return null;
 
         if (value > root.data)
-            root.right = this.deleteRec(root.right, value);
+            root.right = this.delete(root.right, value);
         else if (value < root.data)
-            root.left = this.deleteRec(root.left, value);
+            root.left = this.delete(root.left, value);
         else {
             if (!root.left) 
                 return root.right
@@ -163,17 +130,33 @@ class Tree {
         console.log("Valore non trovato");
         return null;
     }
+
+    findRec(root, value) {
+        if (!root) {
+            console.log("Valore non trovato");
+            return null;
+        }
+
+        if (value == root.data) {
+            console.log("Valore trovato");
+            return root;
+        }
+        else if (value < root.data)
+            return this.findRec(root.left, value);
+        else
+            return this.findRec(root.right, value);
+    }
 }
 
 const array = [6, 2, 8, 5, 10, 4];
 const bst = new Tree(array);
 
 bst.prettyPrint(bst.root);
-bst.find(7);
+bst.findRec(bst.root, 6);
 
-bst.insert(7);
-bst.insert(3);
-bst.prettyPrint(bst.root);
+// bst.insert(7);
+// bst.insert(3);
+// bst.prettyPrint(bst.root);
 
-bst.deleteRec(bst.root, 7);
-bst.prettyPrint(bst.root);
+// bst.delete(bst.root, 7);
+// bst.prettyPrint(bst.root);
