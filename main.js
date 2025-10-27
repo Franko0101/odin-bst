@@ -146,17 +146,44 @@ class Tree {
         else
             return this.findRec(root.right, value);
     }
+
+    levelOrderForEach(callback) {
+        if (typeof callback !== 'function')
+            throw new Error("Argument is not a function");
+
+        const queue = [];
+        queue.push(this.root);
+
+        while (queue.length != 0) {
+            if(queue[0].left)
+                queue.push(queue[0].left)
+            if(queue[0].right)
+                queue.push(queue[0].right);
+            if(queue.length != 0)
+                callback(queue.splice(0,1).at(0));
+        }
+    }
+
+    static printNode(node) {
+        process.stdout.write(`${node.data} `);
+    }
 }
 
 const array = [6, 2, 8, 5, 10, 4];
 const bst = new Tree(array);
 
 bst.prettyPrint(bst.root);
-bst.findRec(bst.root, 6);
+//bst.findRec(bst.root, 6);
 
-// bst.insert(7);
-// bst.insert(3);
+//bst.insert(7);
+//bst.insert(3);
 // bst.prettyPrint(bst.root);
 
 // bst.delete(bst.root, 7);
 // bst.prettyPrint(bst.root);
+
+// bst.levelOrderForEach((node) => {
+//     process.stdout.write(`${node.data} `);
+// })
+
+bst.levelOrderForEach(Tree.printNode);
