@@ -43,6 +43,8 @@ class Tree {
         }
     };
 
+    //Time Complexity: O(h)
+    //Space Complexity: O(1)
     insert(value) {
         console.log(`Provo ad aggiungere ${value}`);
 
@@ -69,6 +71,20 @@ class Tree {
             current.left = newNode;
 
         console.log("Valore aggiunto con successo");
+    }
+
+    //Time Complexity: O(h)
+    //Space Complexity: O(h)
+    insertRec(root, value) {
+        if (!root)
+            return new Node(value);
+
+        if (value > root.data)
+            root.right = this.insertRec(root.right, value);
+        else
+            root.left = this.insertRec(root.left, value);
+
+        return root;
     }
 
     delete(value) {
@@ -102,7 +118,31 @@ class Tree {
             if (!current.left.right && !current.left.left)
                 current.left = null;
         }
-        
+    }
+
+    deleteRec(root, value) {
+        if (!root)
+            return null;
+
+        if (value > root.data)
+            root.right = this.deleteRec(root.right, value);
+        else if (value < root.data)
+            root.left = this.deleteRec(root.left, value);
+        else {
+            if (!root.left) 
+                return root.right
+
+            if (!root.right) 
+                return root.left
+
+            let node = root.right;
+            while (node.left)
+                node = node.left;
+
+            return node;
+        }
+
+        return root;
     }
 
     find(value) {
@@ -123,8 +163,6 @@ class Tree {
         console.log("Valore non trovato");
         return null;
     }
-
-
 }
 
 const array = [6, 2, 8, 5, 10, 4];
@@ -134,7 +172,8 @@ bst.prettyPrint(bst.root);
 bst.find(7);
 
 bst.insert(7);
+bst.insert(3);
 bst.prettyPrint(bst.root);
 
-bst.delete(7);
+bst.deleteRec(bst.root, 7);
 bst.prettyPrint(bst.root);
