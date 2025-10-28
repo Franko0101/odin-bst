@@ -190,6 +190,40 @@ class Tree {
         levelOrderRec(queue, callback);
     }
 
+    preOrderForEach(root, callback) {
+        if (typeof callback !== 'function')
+            throw new Error("Argument is not a function");
+        if (!root)
+            return;
+
+        callback(root);
+
+        this.preOrderForEach(root.left, callback);
+        this.preOrderForEach(root.right, callback);
+    }
+
+    inOrderForEach(root, callback) {
+        if (typeof callback !== 'function')
+            throw new Error("Argument is not a function");
+        if (!root)
+            return;
+
+        this.inOrderForEach(root.left, callback);
+        callback(root);
+        this.inOrderForEach(root.right, callback);
+    }
+
+    postOrderForEach(root, callback) {
+        if (typeof callback !== 'function')
+            throw new Error("Argument is not a function");
+        if (!root)
+            return;
+
+        this.postOrderForEach(root.left, callback);
+        this.postOrderForEach(root.right, callback);
+        callback(root);
+    }
+
     static printNode(node) {
         process.stdout.write(`${node.data} `);
     }
@@ -212,5 +246,11 @@ bst.prettyPrint(bst.root);
 //     process.stdout.write(`${node.data} `);
 // })
 
-
-bst.levelOrderForEachRec(Tree.printNode);
+// bst.levelOrderForEachRec(Tree.printNode);
+// console.log();
+// bst.preOrderForEach(bst.root, Tree.printNode);
+// console.log();
+// bst.inOrderForEach(bst.root, Tree.printNode);
+// console.log();
+// bst.postOrderForEach(bst.root, Tree.printNode);
+// console.log();
