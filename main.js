@@ -150,9 +150,9 @@ class Tree {
     levelOrderForEach(callback) {
         if (typeof callback !== 'function')
             throw new Error("Argument is not a function");
+        if (!this.root) return;
 
-        const queue = [];
-        queue.push(this.root);
+        const queue = [this.root];
 
         while (queue.length != 0) {
             if(queue[0].left)
@@ -160,8 +160,34 @@ class Tree {
             if(queue[0].right)
                 queue.push(queue[0].right);
             if(queue.length != 0)
-                callback(queue.splice(0,1).at(0));
+                callback(queue.shift());
         }
+    }
+
+    levelOrderForEachRec(callback) {
+        if (typeof callback !== 'function')
+            throw new Error("Argument is not a function");
+        if (!this.root) return;
+
+        const queue = [this.root];
+
+        function levelOrderRec(queue, cb) {
+            if (queue.length == 0)
+            return;
+
+            const node = queue[0];
+            cb(node);
+            queue.shift();
+            
+            if(node.left)
+                queue.push(node.left);
+            
+            if(node.right) 
+                queue.push(node.right);
+
+            return levelOrderRec(queue, cb);
+        }
+        levelOrderRec(queue, callback);
     }
 
     static printNode(node) {
@@ -186,4 +212,5 @@ bst.prettyPrint(bst.root);
 //     process.stdout.write(`${node.data} `);
 // })
 
-bst.levelOrderForEach(Tree.printNode);
+
+bst.levelOrderForEachRec(Tree.printNode);
