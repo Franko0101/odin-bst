@@ -9,7 +9,7 @@ class Node {
 class Tree {
     constructor(array) {
         const newArray = this.stripArray(array);
-        this.root = this.buildTree(newArray, 0, newArray.length-1);
+        this.root = this.buildTree(newArray);
     }
 
     stripArray(array) {
@@ -18,7 +18,7 @@ class Tree {
         return noDupsSorted.toSorted((a,b) => a - b);
     }
 
-    buildTree(array, start, end) {
+    buildTree(array, start = 0, end = array.length-1) {
         if (start > end) return null;
 
         let mid = Math.trunc((start + end) / 2);
@@ -224,6 +224,22 @@ class Tree {
         callback(root);
     }
 
+    height(value) {
+        let node = this.find(value);
+
+        function heightRec(root) {
+            if (!root)
+                return -1;
+
+            let leftH = heightRec(root.left)
+            let rightH = heightRec(root.right)
+
+            return Math.max(rightH, leftH) + 1;
+        }
+
+        return heightRec(node);
+    }
+
     depth(value) {
         let current = this.root;
         let height = 0;
@@ -264,6 +280,15 @@ class Tree {
         }
     }
 
+    rebalance() {
+        const array = [];
+        this.levelOrderForEach((node) => {
+            array.push(node.data);
+        });
+        array.sort((a,b) => a - b);
+        this.root = this.buildTree(array);
+    }
+
     static printNode(node) {
         process.stdout.write(`${node.data} `);
     }
@@ -274,9 +299,9 @@ const bst = new Tree([6, 2, 8, 5, 10, 4, 1]);
 bst.prettyPrint(bst.root);
 //bst.findRec(bst.root, 6);
 
-//bst.insert(7);
-//bst.insert(3);
-// bst.prettyPrint(bst.root);
+bst.insert(7);
+bst.insert(3);
+bst.prettyPrint(bst.root);
 
 // bst.delete(bst.root, 7);
 // bst.prettyPrint(bst.root);
@@ -293,4 +318,8 @@ bst.prettyPrint(bst.root);
 // console.log();
 // bst.postOrderForEach(bst.root, Tree.printNode);
 // console.log();
-bst.depthRec(bst.root, 6)
+// bst.depthRec(bst.root, 6)
+// console.log(bst.height(4))
+
+bst.rebalance();
+bst.prettyPrint(bst.root);
