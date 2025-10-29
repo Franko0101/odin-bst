@@ -224,7 +224,7 @@ class Tree {
         callback(root);
     }
 
-    height(value) {
+    depth(value) {
         let current = this.root;
         let height = 0;
         while (current) {
@@ -246,7 +246,7 @@ class Tree {
         return null;
     }
 
-    heightRec(root, value, height = 0) {
+    depthRec(root, value, height = 0) {
         if (!root) {
             console.log("Valore non presente");
             return null;
@@ -257,10 +257,10 @@ class Tree {
             return height;
         }
         else if (value > root.data) {
-            this.heightRec(root.right, value, height+1)
+            this.depthRec(root.right, value, height+1)
         }
         else{
-            this.heightRec(root.left, value, height+1)
+            this.depthRec(root.left, value, height+1)
         }
     }
 
@@ -293,4 +293,4 @@ bst.prettyPrint(bst.root);
 // console.log();
 // bst.postOrderForEach(bst.root, Tree.printNode);
 // console.log();
-bst.heightRec(bst.root, 6)
+bst.depthRec(bst.root, 6)
