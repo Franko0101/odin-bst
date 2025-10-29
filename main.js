@@ -224,13 +224,52 @@ class Tree {
         callback(root);
     }
 
+    height(value) {
+        let current = this.root;
+        let height = 0;
+        while (current) {
+            if (value == current.data) {
+                console.log(`Altezza del Nodo: ${height}`)
+                return height;
+            }
+
+            if (value > current.data) {
+                current = current.right
+                height++;
+            }
+            else{
+                current = current.left;
+                height++;
+            }
+        }
+        console.log("Valore non presente")
+        return null;
+    }
+
+    heightRec(root, value, height = 0) {
+        if (!root) {
+            console.log("Valore non presente");
+            return null;
+        }
+
+        if(value == root.data) {
+            console.log(`Altezza del Nodo: ${height}`)
+            return height;
+        }
+        else if (value > root.data) {
+            this.heightRec(root.right, value, height+1)
+        }
+        else{
+            this.heightRec(root.left, value, height+1)
+        }
+    }
+
     static printNode(node) {
         process.stdout.write(`${node.data} `);
     }
 }
 
-const array = [6, 2, 8, 5, 10, 4];
-const bst = new Tree(array);
+const bst = new Tree([6, 2, 8, 5, 10, 4, 1]);
 
 bst.prettyPrint(bst.root);
 //bst.findRec(bst.root, 6);
@@ -254,3 +293,4 @@ bst.prettyPrint(bst.root);
 // console.log();
 // bst.postOrderForEach(bst.root, Tree.printNode);
 // console.log();
+bst.heightRec(bst.root, 6)
